@@ -72,6 +72,8 @@ NeoBundle 'altercation/vim-colors-solarized'
 " and add smart cursor positioning inside it,
 NeoBundle 'Raimondi/delimitMate'
 
+NeoBundle 'editorconfig/editorconfig-vim'
+
 " Add code static check on write
 " need to be properly configured.
 " I just enable it, with default config,
@@ -142,6 +144,9 @@ NeoBundle 'gregsexton/MatchTag'
 
 " Add Support css3 property
 NeoBundle 'hail2u/vim-css3-syntax'
+
+NeoBundle "vim-jp/cpp-vim" "syntax for c++
+NeoBundle 'octol/vim-cpp-enhanced-highlight' "syntax for c++ enhance
 
 " Smart indent for javascript
 " http://www.vim.org/scripts/script.php?script_id=3081
@@ -264,6 +269,18 @@ let NERDTreeMinimalUI=1
 " Display current file in the NERDTree ont the left
 nmap <silent> <leader>f :NERDTreeFind<CR>
 
+" NERDTree
+nmap <Bs> :NERDTreeToggle<CR>
+let NERDTreeShowBookmarks=1
+let NERDTreeChDirMode=2
+let NERDTreeQuitOnOpen=0
+let NERDTreeShowHidden=1
+let NERDTreeKeepTreeInNewTab=0
+" Disable display of the 'Bookmarks' label and 'Press ? for help' text
+let NERDTreeMinimalUI=1
+" Use arrows instead of + ~ chars when displaying directories
+let NERDTreeDirArrows=1
+
 "-------------------------
 " Syntastic
 
@@ -330,6 +347,32 @@ nmap <silent> <leader>tr :TernRefs<CR>
 
 " Smart variable rename
 nmap <silent> <leader>tn :TernRename<CR>
+
+" gf
+" Open file under cursor in a new vertical split
+nmap gf :vertical wincmd f<CR>>
+
+" Switch splits
+nmap <C-h> <C-W>h
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-l> <C-W>l
+
+" Create a new window relative to the current one
+nmap <Leader><left> :leftabove vnew<CR>
+nmap <Leader><right> :rightbelow vnew<CR>
+nmap <Leader><up> :leftabove new<CR>
+nmap <Leader><down> :rightbelow new<CR>
+
+" Go to begin & end of line into command-mode
+cnoremap <c-e> <end>
+imap <c-e> <c-o>$
+cnoremap <c-a> <home>
+imap <c-a> <c-o>^
+
+" <Esc><Esc>
+" Clear the search highlight in Normal mode
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
 "-------------------------
 " Solarized
@@ -449,10 +492,15 @@ call arpeggio#map('i', '', 0, 'jk', '<ESC>')
 " Colorscheme
 
 " Use solarized colorscheme
-colorscheme solarized
+try
+    colorscheme solarized
+catch /^Vim\%((\a\+)\)\=:E185/
+    echo "Solarized theme not found. Run :BundleInstall"
+endtry
 
 " Setting up light color scheme
 set background=light
+let g:solarized_termcolors=16
 
 " set highlighting for colorcolumn
 highlight ColorColumn ctermbg=lightGrey
